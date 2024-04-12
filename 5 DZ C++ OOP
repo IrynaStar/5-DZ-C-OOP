@@ -1,0 +1,234 @@
+#include <iostream>
+#include <windows.h>
+#include <string>
+using namespace std;
+
+class Producer {
+	char* brand = nullptr;
+	string country;
+
+public:
+	Producer() : Producer(brand, country) {}
+	Producer(const char* brand, string country) {
+		SetBrand(brand);
+		SetCountry(country);
+	}
+
+	void Print() const {
+		cout << "Описание телевизора:\n" << "Бренд: " << brand << "\n";
+		cout << "Страна: " << country << "\n";
+	}
+
+	void SetBrand(const char* brand) {
+		if (this->brand != nullptr) {
+			delete[] this->brand;
+		}
+		int length = strlen(brand);
+		this->brand = new char[length + 1];
+		strcpy_s(this->brand, length + 1, brand);
+	}
+
+	string GetBrand() const {
+		return brand;
+	}
+
+	void SetCountry(string country) {
+		this->country = country;
+	}
+
+	string GetCountry() const {
+		return country;
+	}
+
+	~Producer() {
+		if (brand != nullptr)
+			delete[] brand;
+	}
+};
+
+class TV_about
+{
+private:
+	string model;
+	string color;
+	string version;
+	double rating;
+
+public:
+
+	// пример метода конструктора
+	TV_about() {
+		cout << "object was created!\n";
+	}
+
+	// пример деструктора
+	~TV_about() {
+		cout << "object was destroyed!\n";
+	}
+
+	void Print(string model, string color, string version,double rating) const {
+		cout << "Модель: " << model << "\n"
+			<< "Цвет: " << color << "\n" << "Версия: " << version
+			<< "\n" << "Рейтинг: " << rating << "\n";
+	}
+	void SetModel(string model) {
+		this->model = model;
+		return;
+	
+	}
+	string GetModel() const {
+		return model;
+	}
+	void SetColor(string color) {
+		this->color = color;
+	}
+	string GetColor() const {
+		return color;
+	}
+	void SetVersion(string version) {
+		this->version = version;
+	}
+	string GetVersion() const {
+		return version;
+	}
+	void SetRating(double rating) {
+		this->rating = rating;
+	}
+	double GetRating() const {
+		return rating;
+	}
+};
+
+class TV_ekran {
+	char* diagonal = nullptr;
+	string type;
+public:
+	TV_ekran() : TV_ekran(diagonal, type) {}
+	TV_ekran(const char* diagonal, string type) {
+		SetDiagonal(diagonal);
+		SetType(type);
+	}
+
+	void Print() const {
+		cout << "Диагональ: " << diagonal << "''\n" << "Тип: " << type << "\n";
+	}
+
+	void SetDiagonal(const char* diagonal) {
+		if (this->diagonal != nullptr) {
+			delete[] this->diagonal;
+		}
+		int length = strlen(diagonal);
+		this->diagonal = new char[length + 1];
+		strcpy_s(this->diagonal, length + 1, diagonal);
+	}
+
+	string GetDiagonal() const {
+		return diagonal;
+	}
+	void SetType(string type) {
+		this->type = type;
+	}
+	string GetType() const {
+		return type;
+	}
+
+	~TV_ekran() {
+		if (diagonal != nullptr)
+			delete[] diagonal;
+	}
+};
+
+class TV_productivnost {
+
+private:
+	double OZP;
+	int memory;
+public:
+	TV_productivnost() : TV_productivnost(3, 16) {}
+	TV_productivnost(double OZP, int memory) {
+		SetOZP(OZP);
+		SetMemory(memory);
+	}
+
+	void Print() const {
+		cout << "ОПЗ: " << OZP << " ГБ\n" << "Память: " << memory << " ГБ\n";
+	}
+
+	void SetOZP(double OZP)
+	{
+		this->OZP = OZP;
+	}
+	double GetOZP() const {
+		return OZP;
+	}
+	void SetMemory(int memory)
+	{
+		this->memory = memory;
+	}
+	int GetMemory() const {
+		return memory;
+	}
+};
+
+class TV_stoimost {
+
+private:
+	double price;
+	double discount;
+	double rassrochka;
+
+public:
+	TV_stoimost() : TV_stoimost(9499, 8999, 2299) {}
+	TV_stoimost(double price, double discount, double rassrochka) {
+		SetPrice(price);
+		SetDiscount(discount);
+		SetRassrochka(rassrochka);
+	}
+	void Print() {
+		cout << "Цена без скидки: " << price << " грн\n" << "Цена со скидкой: " << discount << " грн\n"
+			<< "Платеж в месяц (в рассрочку): " << rassrochka << " грн\n";
+	}
+	void SetPrice(double price)
+	{
+		this->price = price;
+	}
+	double GetPrice() const {
+		return price;
+	}
+	void SetDiscount(double discount)
+	{
+		this->discount = discount;
+	}
+	double GetDiscount() const {
+		return discount;
+	}
+	void SetRassrochka(double rassrochka)
+	{
+		this->rassrochka = rassrochka;
+	}
+	double GetRassrochka() const {
+		return rassrochka;
+	}
+};
+
+int main()
+{
+	setlocale(0, "");
+
+	Producer p("Philips", "Japan");
+	p.Print();
+
+	TV_about a; // создание объекта на стеке
+	TV_about* ptr = new TV_about;// создание объекта в хипе
+	a.Print("A2 32", "Black", "Android 10", 4.7);
+	delete ptr;
+
+	TV_ekran e("48", "QLED");
+	e.Print();
+
+	TV_productivnost i;
+	i.Print();
+
+	TV_stoimost s;
+	s.Print();
+}
